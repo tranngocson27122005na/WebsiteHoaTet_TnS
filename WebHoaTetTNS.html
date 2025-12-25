@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop Hoa Tết Trần Ngọc Sơn</title>
+  <link rel="stylesheet" href="webHoaTet.css">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <!-- <img src="https://picsum.photos/120/120" alt="Logo Hoa" class="header-flower"> -->
+    <h1>SHOP HOA TẾT Trần Ngọc Sơn 🌸-NGHỆ AN-🌸</h1>
+    <nav>
+      <a href="#products">Sản phẩm</a>
+      <a href="#cart">Giỏ hàng</a>
+      <a href="#order-form">Đặt hàng</a>
+    </nav>
+    
+  </header>
+
+  <section id="banner">
+    <!-- <img src="https://picsum.photos/1200/400?random=1" alt="Hoa Tết Banner"> -->
+  </section>
+
+  <section id="products">
+    <h2>🌺 Sản phẩm nổi bật</h2>
+    <div class="product" data-name="Hoa Ly" data-price="299000">
+      <!-- <img src="https://picsum.photos/300/200?random=2" alt="Hoa Ly"> -->
+      <h3>HOA LY</h3>
+      <p>299,000₫</p>
+      <button class="add-cart">Thêm vào giỏ</button>
+    </div>
+    <div class="product" data-name="Hoa Mai" data-price="699000">
+      <!-- <img src="https://picsum.photos/300/200?random=3" alt="Hoa Mai"> -->
+      <h3>HOA MAI</h3>
+      <p>699,000₫</p>
+      <button class="add-cart">Thêm vào giỏ</button>
+    </div>
+    <div class="product" data-name="Hoa Đào" data-price="699000">
+      <!-- <img src="https://picsum.photos/300/200?random=4" alt="Hoa Đào"> -->
+      <h3>HOA ĐÀO</h3>
+      <p>699,000₫</p>
+      <button class="add-cart">Thêm vào giỏ</button>
+    </div>
+  </section>
+
+  <section id="cart">
+    <h2>🛒 Giỏ hàng</h2>
+    <ul id="cart-items"></ul>
+    <p><strong>Tổng cộng:</strong> <span id="total">0₫</span></p>
+  </section>
+
+  <section id="order-form">
+    <h2>📦 Đặt hàng</h2>
+    <form id="form-order">
+      <input type="text" id="name" placeholder="Họ và tên" required>
+      <input type="tel" id="phone" placeholder="Số điện thoại" required>
+      <textarea id="address" placeholder="Địa chỉ giao hàng" required></textarea>
+      <button type="submit">Gửi đơn hàng</button>
+    </form>
+    <p id="order-status"></p>
+  </section>
+
+  <footer>
+  <div class="footer-container">
+    <div class="footer-left">
+      <h3>🌸 Shop Hoa Tết Trần Ngọc Sơn 🌸</h3>
+      <p>🎉 Mang đến không gian Tết rực rỡ tại Nghệ An</p>
+    </div>
+    <div class="footer-center">
+      <h4>Liên hệ</h4>
+      <p>📱 Zalo: <a href="https://zalo.me/0353265927" target="_blank">0353265927</a></p>
+      <p>✉ Email: <a href="mailto:tranngocson27122005na@gmail.com">tranngocson27122005na@gmail.com</a></p>
+    </div>
+    <div class="footer-right">
+      <h4>Theo dõi chúng tôi</h4>
+      <p>
+        <a href="#" class="social-btn">🌐 Website</a>
+        <a href="#" class="social-btn">📸 Instagram</a>
+        <a href="#" class="social-btn">👍 Facebook</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Shop Hoa Tết Trần Ngọc Sơn | Thiết kế bởi TnS 🌸</p>
+  </div>
+</footer>
+
+
+  <!-- Chatbot -->
+  <div id="chat-container">
+    <div id="chat-header">TnS ChatBox 🌸 - Hỗ trợ mua HOA 🌸</div>
+    <div id="chat-messages"></div>
+    <div id="chat-input-container">
+      <input id="chat-input" type="text" placeholder="Nhập tin nhắn...">
+      <button id="chat-send">Gửi</button>
+    </div>
+  </div>
+
+  <script src="webHoaTet.js"></script>
+  <script>
+   /* ---------------- GIỎ HÀNG ---------------- */
+let cart = []; // mảng lưu các sản phẩm trong giỏ
+
+// Cập nhật hiển thị giỏ hàng và tổng tiền
+function updateCart() {
+    const cartEl = document.getElementById("cart-items");
+    cartEl.innerHTML = "";
+
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        total += item.price;
+
+        const li = document.createElement("li");
+        li.innerHTML = `${item.name} - ${item.price.toLocaleString()}₫ 
+                        <button class="remove-btn" data-index="${index}">❌</button>`;
+        cartEl.appendChild(li);
+    });
+
+    document.getElementById("total").innerText = total.toLocaleString() + "₫";
+
+    // Thêm sự kiện xóa sản phẩm
+    document.querySelectorAll(".remove-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const idx = btn.dataset.index;
+            cart.splice(idx, 1); // xóa sản phẩm khỏi mảng
+            updateCart(); // cập nhật lại giỏ
+        });
+    });
+}
+
+// Thêm sản phẩm vào giỏ
+
+document.querySelectorAll(".add-cart").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const p = btn.closest(".product");
+        const name = p.dataset.name;
+        const price = Number(p.dataset.price);
+
+        cart.push({ name, price }); // thêm vào giỏ
+        const totalEl = document.getElementById("total");
+
+        // hiệu ứng nhấn tổng tiền
+        totalEl.style.transform = "scale(1.3)";
+        setTimeout(() => totalEl.style.transform = "scale(1)", 300);
+
+        updateCart(); // cập nhật giỏ
+
+        // Gửi tin nhắn tự động cho chatbot
+        addBotAutoMessage(`Bạn vừa thêm <b>${name}</b> vào giỏ. Tổng hiện tại: ${cart.reduce((a,b)=>a+b.price,0).toLocaleString()}₫`);
+    });
+});
+
+
+/* ---------------- CHATBOT ---------------- */
+const chatInput=document.getElementById("chat-input");
+const chatMessages=document.getElementById("chat-messages");
+
+async function sendUserMessage(msg){
+    if(!msg) return;
+    chatMessages.innerHTML+=`<div class="user-message">${msg}</div>`;
+    chatInput.value=""; chatMessages.scrollTop=chatMessages.scrollHeight;
+    await sendBotMessage(msg);
+}
+
+async function sendBotMessage(message){
+    const botLoading=document.createElement("div"); botLoading.className="bot-message"; 
+    botLoading.innerHTML='<span class="typing-dot">•</span><span class="typing-dot">•</span><span class="typing-dot">•</span> Đang trả lời...';
+    chatMessages.appendChild(botLoading); chatMessages.scrollTop=chatMessages.scrollHeight;
+    try{
+        // Mô phỏng phản hồi chuyên nghiệp (demo), có thể thay bằng OpenAI API
+        await new Promise(r=>setTimeout(r,1000));
+        let botReply="";
+        if(message.toLowerCase().includes("hoa ly")) botReply="🌸 Hoa Ly 299,000₫/bó. Bạn muốn thêm vào giỏ không🌸?";
+        else if(message.toLowerCase().includes("hoa đào")) botReply="🌸 Hoa Đào 699,000₫/bó. Bạn muốn thêm vào giỏ không🌸?";
+        else if(message.toLowerCase().includes("hoa mai")) botReply="🌸 Hoa Mai 699,000₫/bó. Bạn muốn thêm vào giỏ không🌸?";
+        else if(message.toLowerCase().includes("đơn hàng")) botReply=`✅ Đơn hàng hiện tại:\n${cart.map(i=>i.name+' - '+i.price.toLocaleString()+'₫').join('\n')}\nTổng: ${total.toLocaleString()}₫`;
+        else botReply="Xin chào! Bạn muốn xem hoa nào hôm nay🌸? Bạn có thể nhấn vào gợi ý bên dưới.🌸";
+
+        botLoading.remove();
+        const botDiv=document.createElement("div"); botDiv.className="bot-message"; botDiv.innerHTML=botReply;
+        chatMessages.appendChild(botDiv); chatMessages.scrollTop=chatMessages.scrollHeight;
+
+        // Thêm button gợi ý sản phẩm
+        if(botReply.includes("Bạn có thể nhấn")) {
+            ["Hoa Ly","Hoa Đào","Hoa Mai"].forEach(p=>{
+                const btn=document.createElement("button"); btn.className="chat-btn"; btn.textContent=p;
+                btn.onclick=()=> sendUserMessage(p);
+                chatMessages.appendChild(btn);
+            });
+        }
+
+    }catch(e){ console.error(e); botLoading.textContent="Có lỗi xảy ra, vui lòng thử lại!"; }
+}
+
+document.getElementById("chat-send").addEventListener("click",()=>sendUserMessage(chatInput.value.trim()));
+chatInput.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault(); sendUserMessage(chatInput.value.trim());}});
+
+/* ---------------- TỰ GỬI TIN NHẮN MẪU ---------------- */
+const autoMessages=[
+    "Chào bạn! Tôi có thể giúp gì hôm nay🌸?",
+    "Bạn muốn xem các loại hoa Tết nổi bật không🌸?",
+    "Nhấn vào hoa để thêm vào giỏ nhanh nhé🌸!"
+];
+let autoIndex=0;
+function addBotAutoMessage(msg){
+    const botDiv=document.createElement("div"); botDiv.className="bot-message auto-message"; botDiv.innerHTML=msg;
+    chatMessages.appendChild(botDiv); chatMessages.scrollTop=chatMessages.scrollHeight;
+}
+setInterval(()=>{addBotAutoMessage(autoMessages[autoIndex]); autoIndex=(autoIndex+1)%autoMessages.length;},15000);
+  </script>
+</body>
+</html>

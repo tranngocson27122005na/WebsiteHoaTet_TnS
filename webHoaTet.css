@@ -1,0 +1,315 @@
+/* ==========================
+   Reset cơ bản và font
+========================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: linear-gradient(to bottom, #fff8e1, #ffe0b2);
+    color: #333;
+}
+
+/* ==========================
+   Header
+========================== */
+header {
+    background: #ff404d;
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+header h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+header nav a {
+    color: #fff;
+    margin: 0 15px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.3s;
+}
+header nav a:hover {
+    text-decoration: underline;
+}
+
+/* ==========================
+   Sections
+========================== */
+section {
+    padding: 20px;
+    margin: 10px auto;
+}
+section h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #29b71c;
+    text-shadow: 1px 1px 2px #fff;
+}
+
+/* ==========================
+   Products
+========================== */
+#products {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.product {
+    background: linear-gradient(145deg, #ffeb3b, #ff9800);
+    width: 200px;
+    padding: 15px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+.product h3 {
+    margin: 10px 0 5px;
+    color: #29b71c;
+    font-weight: 700;
+}
+.product p {
+    font-weight: bold;
+    color: #4a148c;
+}
+.add-cart {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: hsl(122, 80%, 32%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.add-cart:hover {
+    background: hsl(122, 80%, 32%);
+    transform: scale(1.05);
+}
+
+/* ==========================
+   Cart
+========================== */
+#cart {
+    background: #ffccbc;
+    padding: 15px;
+    border-radius: 15px;
+    max-width: 600px;
+    margin: 20px auto;
+}
+#cart-items {
+    list-style: none;
+    margin-bottom: 10px;
+}
+#cart-items li {
+    background: #fff3e0;
+    padding: 8px 10px;
+    margin-bottom: 5px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+#total {
+    font-size: 1.2rem;
+    color: #d32f2f;
+    font-weight: 700;
+    transition: transform 0.3s;
+}
+
+/* ==========================
+   Order form
+========================== */
+#order-form {
+    background: #fff8e1;
+    padding: 20px;
+    max-width: 500px;
+    margin: 20px auto;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+#order-form input, #order-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+#order-form button {
+    padding: 10px 15px;
+    background: #ff4081;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+#order-form button:hover {
+    background: #e91e63;
+}
+
+/* ==========================
+   Footer
+========================== */
+/* ==========================
+   Footer đẹp chuyên nghiệp
+========================== */
+footer {
+    background: linear-gradient(135deg, #ff80ab, #ffb74d);
+    color: white;
+    padding: 25px 15px;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+    font-size: 0.9rem;
+    box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+}
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+}
+.footer-container div {
+    flex: 1 1 250px;
+    margin: 10px;
+}
+.footer-container h3, .footer-container h4 {
+    margin-bottom: 10px;
+    color: #fffde7;
+}
+.footer-container p, .footer-container a {
+    color: white;
+    text-decoration: none;
+}
+.footer-container a:hover {
+    text-decoration: underline;
+    color: #fff59d;
+}
+.social-btn {
+    display: inline-block;
+    margin: 3px 5px;
+    padding: 5px 10px;
+    background: #d32f2f;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.social-btn:hover {
+    background: #b71c1c;
+    transform: scale(1.05);
+}
+.footer-bottom {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: #fffde7;
+    border-top: 1px solid rgba(255,255,255,0.3);
+    padding-top: 10px;
+}
+
+
+/* ==========================
+   Chatbot
+========================== */
+#chat-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 400px;
+    border: 2px solid #ff4081;
+    border-radius: 15px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+#chat-header {
+    background: #ff4081;
+    color: white;
+    font-weight: 700;
+    padding: 10px;
+    text-align: center;
+}
+#chat-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+}
+.user-message {
+    background: #f1f8e9;
+    padding: 6px 10px;
+    border-radius: 12px;
+    margin: 5px 0;
+    text-align: right;
+    font-weight: 600;
+}
+.bot-message {
+    background: #ff80ab;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 12px;
+    margin: 5px 0;
+    text-align: left;
+    font-weight: 600;
+}
+#chat-input-container {
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+#chat-input-container input {
+    flex: 1;
+    padding: 8px;
+    border: none;
+}
+#chat-input-container button {
+    padding: 8px 12px;
+    background: #ff4081;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 700;
+}
+.chat-btn {
+    margin: 3px 2px;
+    padding: 4px 7px;
+    background: #ffb74d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.chat-btn:hover {
+    background: #ffa726;
+}
+
+/* Typing animation */
+.typing-dot {
+    animation: blink 1s infinite;
+    display: inline-block;
+    margin: 0 1px;
+}
+@keyframes blink {
+    0%,100%{opacity:0;}
+    50%{opacity:1;}
+}
+.auto-message {
+    opacity: 0.85;
+    font-style: italic;
+}

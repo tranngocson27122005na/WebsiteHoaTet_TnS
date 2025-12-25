@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Shop Hoa Tết - TnS</title>
+<style>
+body {font-family:'Be Vietnam Pro',sans-serif;background:#fff8e1;margin:0;padding:0;}
+header {background:#ffcc00;padding:20px;text-align:center;font-family:'Dancing Script',cursive;}
+header h1 {margin:0;color:#d7263d;font-size:2.5em;}
+#products {text-align:center;padding:30px;}
+.product {display:inline-block;width:200px;margin:15px;padding:15px;background:#fff8e1;border-radius:12px;box-shadow:0 2px 8px #ffd70055;}
+.product img {width:100%;height:150px;object-fit:cover;border-radius:8px;}
+button.add-cart, .chat-btn {padding:8px 12px;background:#ff9800;color:white;border:none;border-radius:6px;cursor:pointer;margin-top:5px;font-weight:bold;}
+button.add-cart:hover, .chat-btn:hover {background:#e65100;}
+#cart {background:#fffde7;padding:20px;margin:20px auto;width:300px;border-radius:12px;}
+#cart-items {list-style:none;padding:0;margin:0;}
+#cart-items li {padding:5px 0;border-bottom:1px dashed #ffd700;}
+#total {font-weight:bold;color:#d7263d;text-align:right;margin-top:10px;}
+#chat-container {position:fixed;bottom:20px;right:20px;width:320px;background:white;border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,0.2);display:flex;flex-direction:column;}
+#chat-header {background:#ff9800;color:white;padding:10px;border-radius:12px 12px 0 0;text-align:center;font-weight:bold;}
+#chat-messages {height:250px;overflow-y:auto;padding:10px;}
+.user-message {text-align:right;background:#d0e7ff;padding:5px 10px;border-radius:10px;display:inline-block;margin:5px;}
+.bot-message {text-align:left;background:#d4ffd4;padding:5px 10px;border-radius:10px;display:inline-block;margin:5px;}
+.auto-message {background:#fff0b3;color:#d65100;}
+#chat-input {border:none;padding:10px;width:calc(100% - 60px);outline:none;}
+#chat-send {width:50px;background:#ff9800;border:none;color:white;cursor:pointer;}
+.typing-dot {animation:blink 1s infinite;margin-right:2px;} @keyframes blink{0%,50%,100%{opacity:1;}25%,75%{opacity:0;}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Shop Hoa Tết - TnS 🌸</h1>
+</header>
+
+<section id="products">
+<h2>Sản phẩm nổi bật</h2>
+<div class="product" data-name="Hoa Ly" data-price="300000">
+<img src="https://picsum.photos/200/150?random=1" alt="Hoa Ly">
+<h3>Hoa Ly</h3>
+<p>300,000₫</p>
+<button class="add-cart">Thêm vào giỏ</button>
+</div>
+<div class="product" data-name="Hoa Đào" data-price="500000">
+<img src="https://picsum.photos/200/150?random=2" alt="Hoa Đào">
+<h3>Hoa Đào</h3>
+<p>500,000₫</p>
+<button class="add-cart">Thêm vào giỏ</button>
+</div>
+<div class="product" data-name="Hoa Mai" data-price="700000">
+<img src="https://picsum.photos/200/150?random=3" alt="Hoa Mai">
+<h3>Hoa Mai</h3>
+<p>700,000₫</p>
+<button class="add-cart">Thêm vào giỏ</button>
+</div>
+</section>
+
+<section id="cart">
+<h2>Giỏ hàng</h2>
+<ul id="cart-items"></ul>
+<p>Tổng: <span id="total">0₫</span></p>
+</section>
+
+<!-- ChatBot -->
+<div id="chat-container">
+<div id="chat-header">TnS ChatBot 🌸</div>
+<div id="chat-messages"></div>
+<div style="display:flex;">
+<input id="chat-input" type="text" placeholder="Nhập tin nhắn...">
+<button id="chat-send">Gửi</button>
+</div>
+</div>
+
+<script>
+/* ---------------- GIỎ HÀNG ---------------- */
+let cart=[], total=0;
+function updateCart(){
+    const cartEl=document.getElementById("cart-items"); cartEl.innerHTML="";
+    cart.forEach(i=>{const li=document.createElement("li"); li.textContent=`${i.name} - ${i.price.toLocaleString()}₫`; cartEl.appendChild(li);});
+    document.getElementById("total").innerText=total.toLocaleString()+"₫";
+}
+document.querySelectorAll(".add-cart").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+        const p=btn.closest(".product"); const name=p.dataset.name; const price=Number(p.dataset.price);
+        cart.push({name, price}); total+=price;
+        const totalEl=document.getElementById("total"); totalEl.style.transform="scale(1.3)";
+        setTimeout(()=>totalEl.style.transform="scale(1)",300); updateCart();
+        addBotAutoMessage(`Bạn vừa thêm <b>${name}</b> vào giỏ. Tổng hiện tại: ${total.toLocaleString()}₫`);
+    });
+});
+
+/* ---------------- CHATBOT ---------------- */
+const chatInput=document.getElementById("chat-input");
+const chatMessages=document.getElementById("chat-messages");
+
+async function sendUserMessage(msg){
+    if(!msg) return;
+    chatMessages.innerHTML+=`<div class="user-message">${msg}</div>`;
+    chatInput.value=""; chatMessages.scrollTop=chatMessages.scrollHeight;
+    await sendBotMessage(msg);
+}
+
+async function sendBotMessage(message){
+    const botLoading=document.createElement("div"); botLoading.className="bot-message"; 
+    botLoading.innerHTML='<span class="typing-dot">•</span><span class="typing-dot">•</span><span class="typing-dot">•</span> Đang trả lời...';
+    chatMessages.appendChild(botLoading); chatMessages.scrollTop=chatMessages.scrollHeight;
+    try{
+        // Mô phỏng phản hồi chuyên nghiệp (demo), có thể thay bằng OpenAI API
+        await new Promise(r=>setTimeout(r,1000));
+        let botReply="";
+        if(message.toLowerCase().includes("hoa ly")) botReply="🌸 Hoa Ly 300,000₫/bó. Bạn muốn thêm vào giỏ không?";
+        else if(message.toLowerCase().includes("hoa đào")) botReply="🌸 Hoa Đào 500,000₫/bó. Bạn muốn thêm vào giỏ không?";
+        else if(message.toLowerCase().includes("hoa mai")) botReply="🌸 Hoa Mai 700,000₫/bó. Bạn muốn thêm vào giỏ không?";
+        else if(message.toLowerCase().includes("đơn hàng")) botReply=`✅ Đơn hàng hiện tại:\n${cart.map(i=>i.name+' - '+i.price.toLocaleString()+'₫').join('\n')}\nTổng: ${total.toLocaleString()}₫`;
+        else botReply="Xin chào! Bạn muốn xem hoa nào hôm nay? Bạn có thể nhấn vào gợi ý bên dưới.";
+
+        botLoading.remove();
+        const botDiv=document.createElement("div"); botDiv.className="bot-message"; botDiv.innerHTML=botReply;
+        chatMessages.appendChild(botDiv); chatMessages.scrollTop=chatMessages.scrollHeight;
+
+        // Thêm button gợi ý sản phẩm
+        if(botReply.includes("Bạn có thể nhấn")) {
+            ["Hoa Ly","Hoa Đào","Hoa Mai"].forEach(p=>{
+                const btn=document.createElement("button"); btn.className="chat-btn"; btn.textContent=p;
+                btn.onclick=()=> sendUserMessage(p);
+                chatMessages.appendChild(btn);
+            });
+        }
+
+    }catch(e){ console.error(e); botLoading.textContent="Có lỗi xảy ra, vui lòng thử lại!"; }
+}
+
+document.getElementById("chat-send").addEventListener("click",()=>sendUserMessage(chatInput.value.trim()));
+chatInput.addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault(); sendUserMessage(chatInput.value.trim());}});
+
+/* ---------------- TỰ GỬI TIN NHẮN MẪU ---------------- */
+const autoMessages=[
+    "Chào bạn! Tôi có thể giúp gì hôm nay?",
+    "Bạn muốn xem các loại hoa Tết nổi bật không?",
+    "Nhấn vào hoa để thêm vào giỏ nhanh nhé!"
+];
+let autoIndex=0;
+function addBotAutoMessage(msg){
+    const botDiv=document.createElement("div"); botDiv.className="bot-message auto-message"; botDiv.innerHTML=msg;
+    chatMessages.appendChild(botDiv); chatMessages.scrollTop=chatMessages.scrollHeight;
+}
+setInterval(()=>{addBotAutoMessage(autoMessages[autoIndex]); autoIndex=(autoIndex+1)%autoMessages.length;},15000);
+</script>
+</body>
+</html>
